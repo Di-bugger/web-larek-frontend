@@ -4,7 +4,7 @@ export interface IProductItem {
 	description: string;
 	image: string;
 	category: string;
-	price: number;
+	price: number | null;
 }
 
 
