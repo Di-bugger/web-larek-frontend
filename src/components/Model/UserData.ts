@@ -6,7 +6,6 @@ export interface IUserData {
 	address: string;
 	typeCost: string;
 	totalCost: number;
-	orderItems: string[];
 }
 
 export class UserDataModel implements IUserData {
@@ -15,7 +14,7 @@ export class UserDataModel implements IUserData {
 	address: string;
 	typeCost: string;
 	totalCost: number;
-	orderItems: string[];
+
 
 	constructor(protected events: IEvents) {
 		this.email = '';
@@ -23,7 +22,6 @@ export class UserDataModel implements IUserData {
 		this.address = '';
 		this.typeCost = '';
 		this.totalCost = 0;
-		this.orderItems = []
 	}
 
 	addAddress(address: string) {
@@ -44,7 +42,6 @@ export class UserDataModel implements IUserData {
 			phone: this.phone,
 			address: this.address,
 			typeCost: this.typeCost,
-			orderItems: this.orderItems,
 			totalCost: this.totalCost,
 		}
 	}

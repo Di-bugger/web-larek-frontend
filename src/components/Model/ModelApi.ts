@@ -1,5 +1,5 @@
 import { Api, ApiListResponse } from '../base/api';
-import { IProductItem } from '../../types';
+import { IOrderDone, IOrderItems, IProductItem } from '../../types';
 
 
 class ModelApi extends  Api{
@@ -18,5 +18,9 @@ class ModelApi extends  Api{
 				...item, image: this.cdn + item.image
 			}))
 		)
+	}
+
+	postOrder(order: IOrderItems): Promise<IOrderDone> {
+		return this.post(`/order`, order).then((data: IOrderDone) => data);
 	}
 }
