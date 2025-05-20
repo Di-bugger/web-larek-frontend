@@ -16,8 +16,26 @@ export interface IOrderItems{
 	items: string[];
 }
 
+export interface IOrderForm {
+	payment?: string;
+	address?: string;
+	phone?: string;
+	email?: string;
+	total?: string | number;
+}
+
 export interface IOrderDone {
 	id: string;
 	total: number;
 }
+
+export interface IActionClick {
+	onClick: (event: MouseEvent) => void;
+}
+
+export interface IOrder extends IOrderForm {
+	items: string[];
+}
+
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
 

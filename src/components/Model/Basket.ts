@@ -2,16 +2,15 @@ import {IProductItem } from '../../types';
 
 export interface IBasketModel {
 	items: IProductItem[];
-	totalPrice: number;
 	addItem(item: IProductItem): void;
 	removeItem(item: IProductItem): void;
+	getTotalPrice(): number;
 	getCountItems(): number;
 	clearBasket(): void
 }
 
 export class ModelBasket implements IBasketModel {
 	 protected _items: IProductItem[] ;
-	 protected _totalPrice: number;
 
 	constructor() {
 		this._items = []
@@ -25,15 +24,20 @@ export class ModelBasket implements IBasketModel {
 		this._items = data;
 	}
 
-	get totalPrice() {
-		this._items.forEach(items => {
-			this._totalPrice += items.price
-		});
-		return this._totalPrice;
+	getTotalPrice() {
+		let sum = 0;
+		this._items.forEach(item => {
+			sum += item.price;
+		})
+		return sum;
 	}
 
 	addItem(item: IProductItem) {
-		this._items = [...this._items, item];
+		const existingItem = this._items.find(i => i.id === item.id); // Ищем товар с таким же ID в корзине
+
+		if (!existingItem) { // Если товара с таким ID нет, то добавляем
+			this._items = [...this._items, item];
+		}
 	}
 
 	removeItem(item: IProductItem) {

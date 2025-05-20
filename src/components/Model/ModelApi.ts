@@ -2,7 +2,7 @@ import { Api, ApiListResponse } from '../base/api';
 import { IOrderDone, IOrderItems, IProductItem } from '../../types';
 
 
-class ModelApi extends  Api{
+export class ModelApi extends  Api{
 	cdn: string;
 	items: IProductItem[]
 

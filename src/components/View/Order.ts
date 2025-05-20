@@ -5,6 +5,7 @@ export interface IOrder {
 	formOrder: HTMLFormElement;
 	buttonAll: HTMLButtonElement[];
 	formErrors: HTMLElement;
+	paySelect: string;
 	render(): HTMLElement;
 }
 
@@ -20,6 +21,13 @@ export class Order implements IOrder {
 		this.buttonAll = Array.from(this.formOrder.querySelectorAll('.button_alt'));
 		this.buttonSubmit = this.formOrder.querySelector('.order__button');
 
+		this.buttonAll.forEach(item => {
+			item.addEventListener('click', () => {
+				this.paySelect = item.name;
+				events.emit('order:paymentSelection', item);
+			});
+		});
+
 		this.formOrder.addEventListener('input', (event: Event) => {
 			const target = event.target as HTMLInputElement;
 			const field = target.name;
@@ -33,11 +41,16 @@ export class Order implements IOrder {
 		});
 	}
 
+	set paySelect(payMethod: string) {
+		this.buttonAll.forEach(item => {
+			item.classList.toggle('button_alt-active', item.name === payMethod);
+		})
+	}
+
 	set activeButton(value: boolean) {
 		this.buttonSubmit.disabled = !value;
 	}
 
-	//додумать логику кнопок
 
 	render() {
 		return this.formOrder

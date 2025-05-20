@@ -1,11 +1,11 @@
-import { IEvents } from '../base/events';
-import { IProductItem } from '../../types';
+
+import { IActionClick, IProductItem } from '../../types';
 
 export interface ICard {
 	render(data: IProductItem): HTMLElement;
 }
 
-export class Card  {
+export class Card implements ICard {
 	protected _cardElement: HTMLElement;
 	protected _cardTitle: HTMLElement;
 	protected _cardImage: HTMLImageElement;
@@ -19,12 +19,16 @@ export class Card  {
 		"другое": "other",
 	}
 
-	constructor(template: HTMLTemplateElement) {
+	constructor(template: HTMLTemplateElement, eventsClick?: IActionClick) {
 		this._cardElement = template.content.querySelector('.card').cloneNode(true) as HTMLElement;
 		this._cardCategory = this._cardElement.querySelector('.card__category');
 		this._cardTitle = this._cardElement.querySelector('.card__title');
 		this._cardImage = this._cardElement.querySelector('.card__image');
 		this._cardPrice = this._cardElement.querySelector('.card__price');
+
+		if (eventsClick?.onClick) {
+			this._cardElement.addEventListener('click', eventsClick.onClick);
+		}
 	}
 
 	protected setText(element: HTMLElement, value: unknown) {
