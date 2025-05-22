@@ -51,7 +51,6 @@ events.on('productList:changed', () => {
 		const card = new Card(catalogTemplate, { onClick: () => events.emit('card:select', item) });
 		cardContainer.append(card.render(item));
 	})
-	modal.close()
 })
 
 // Определение карточки по которой кликнули
@@ -60,6 +59,11 @@ events.on('card:select', (item: IProductItem) => { dataModel.setOpenCard(item) }
 //Открытие выбранной карточки
 events.on('modalCard:open', (item: IProductItem) => {
 	const cardDetailed = new CardDetailed(previewTemplate, events)
+
+	const isInBasket = Boolean(basketModel.items.find(i => i.id === item.id));
+	console.log(isInBasket);
+	cardDetailed.isInBasket(isInBasket);
+
 	modal.content = cardDetailed.render(item);
 	modal.render();
 });
@@ -121,24 +125,24 @@ events.on('order:paymentSelection', (button: HTMLButtonElement) => {
 
 //Открытие окна заполнения данных email и phone
 events.on('userinfo:open', () => {
-	userDataModel.totalCost = basketModel.getTotalPrice();
 	modal.content = orderContacts.render();
 	modal.render();
 });
 
 //открытие успешного заказа
 events.on('success:open', () => {
+	userDataModel.totalCost = basketModel.getTotalPrice();
 	const userData = userDataModel.getOrder();
 	// Получаем товары из корзины
 	const items = basketModel.items;
 
 	// Преобразуем массив товаров в массив ID
-	const itemId = items.map(item => item.id); // Предполагаем, что у каждого товара есть свойство id
+	const itemsId = items.map(item => item.id); // Предполагаем, что у каждого товара есть свойство id
 
 	// Создаем объект заказа, объединяя данные пользователя и ID товаров, для передачи в аргумент функции
 	const orderData: IOrderItems = {
 		...userData, // Копируем данные пользователя
-		items: itemId // Добавляем ID товаров из корзины
+		items: itemsId // Добавляем ID товаров из корзины
 	};
 	console.log(orderData)
 

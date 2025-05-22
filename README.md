@@ -193,6 +193,7 @@ type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 Класс имеет такие основные методы:
 - ```notForSale(data:IProductItem)``` - для проверки наличия цены товара, и если товар бесценый - дезактивирование кнопки.
+- ```isInBasket(isInBasket: boolean)``` - для проверки наличия товара в корзине, и если есть - дезактивирование кнопки.
 - ```render(data: IProductItem)``` - возвращает HTML-элемент - карточку товара 
 
 ### 3. Класс ```BasketItem ```
